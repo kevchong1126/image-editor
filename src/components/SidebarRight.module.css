@@ -1,0 +1,101 @@
+
+.container{
+    position: absolute;
+    top: 0;
+    right:0;
+    height: 100vh;
+    width: 200px;
+    background-color: #010015;
+    color: white;
+}
+
+.content{
+    margin-block: 3rem;
+    width: 85%;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.option{
+    border: 1px solid white;
+    padding-block: 0.5rem;
+    padding-inline: 1rem;
+    display: inline-block;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+.typesList{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.sizeList{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.colorList{
+    display: flex;
+    flex-wrap: wrap;
+    
+    gap: 0.1rem;
+    margin-top: 1rem;
+}
+
+.colorItem{
+    width: 50px;
+    height: 50px;
+    border: 1px solid transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    transition: all 0.3s linear;
+    cursor: pointer;
+}
+
+.colorItem:hover{
+    border-color: white;
+}
+
+.colorItem span{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.red{
+    background-color: red;
+}
+.green{
+    background-color: green;
+}   
+.blue{
+    background-color: blue;
+}
+.black{
+    background-color: black;
+}
+.yellow{
+    background-color: yellow;
+}
+.white{
+    background-color: white;
+}
+
+.selected{
+    background-color: white;
+    color: #010015;
+}
+
+.selCol{
+    border-color: white;
+}
