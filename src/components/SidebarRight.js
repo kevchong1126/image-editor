@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import style from './SidebarRight.module.css'
 import { globalContext } from '../Context';
 
@@ -18,33 +18,33 @@ const SidebarRight = () => {
     <div className={style.container}>
         <div className={style.content}>
             <div className={style.types}>
-                <h4>Action</h4>
                 <div className={style.typesList}>
                     <p className={`${style.option} ${brushAction === 'brush' ? style.selected : ''}`} onClick={() => actionHandler('brush')}>Brush</p>
                     <p className={`${style.option} ${brushAction === 'eraser' ? style.selected : ''}`} onClick={() => actionHandler('eraser')}>Eraser</p>
                 </div>
-                
+                <h4>Tool</h4>
             </div>
             <div className={style.size}>
-                <h4>Size</h4>
                 <div className={style.sizeList}>
-                    <p className={`${style.option} ${brushSize ===  1 ? style.selected : ''}`} onClick={() => sizeHandler(1)}>Thin</p>
-                    <p className={`${style.option} ${brushSize ===  5 ? style.selected : ''}`} onClick={() => sizeHandler(5)}>Normal</p>
-                    <p className={`${style.option} ${brushSize ===  10 ? style.selected : ''}`} onClick={() => sizeHandler(10)}>Big</p>
-                    <p className={`${style.option} ${brushSize ===  15 ? style.selected : ''}`} onClick={() => sizeHandler(15)} >Huge</p>  
+                    <p className={`${style.option} ${brushSize ===  1 ? style.selected : ''}`} onClick={() => sizeHandler(1)}>1px</p>
+                    <p className={`${style.option} ${brushSize ===  2 ? style.selected : ''}`} onClick={() => sizeHandler(2)}>2px</p>
+                    <p className={`${style.option} ${brushSize ===  5 ? style.selected : ''}`} onClick={() => sizeHandler(5)}>5px</p>
+                    <p className={`${style.option} ${brushSize ===  10 ? style.selected : ''}`} onClick={() => sizeHandler(10)}>10px</p>
+                    <p className={`${style.option} ${brushSize ===  15 ? style.selected : ''}`} onClick={() => sizeHandler(15)} >15px</p>  
                 </div>
-                
+                <h4>Size</h4>
             </div>  
             <div className={style.color}>
-                <h4>Color</h4>
                 <div className={style.colorList}>
-                    <div className={`${style.colorItem} ${brushColor === 'red' ? style.selCol : ''}`} onClick={() => colorHandler('red')}><span className={style.red}></span></div>
-                    <div className={`${style.colorItem} ${brushColor === 'green' ? style.selCol : ''}`} onClick={() => colorHandler('green')}><span className={style.green}></span></div>
-                    <div className={`${style.colorItem} ${brushColor === 'blue' ? style.selCol : ''}`} onClick={() => colorHandler('blue')}><span className={style.blue}></span></div>
-                    <div className={`${style.colorItem} ${brushColor === 'black' ? style.selCol : ''}`} onClick={() => colorHandler('black')}><span className={style.black}></span></div>
-                    <div className={`${style.colorItem} ${brushColor === 'yellow' ? style.selCol : ''}`} onClick={() => colorHandler('yellow')}><span className={style.yellow}></span></div>
-                    <div className={`${style.colorItem} ${brushColor === 'white' ? style.selCol : ''}`} onClick={() => colorHandler('white')}><span className={style.white}></span></div>
+                    <div className={`${style.colorItem} ${brushColor === 'black' ? style.selCol : ''}`} onClick={() => {actionHandler('brush'); colorHandler('black')}}><span className={style.black}></span></div>
+                    <div className={`${style.colorItem} ${brushColor === 'red' ? style.selCol : ''}`} onClick={() => {actionHandler('brush'); colorHandler('red')}}><span className={style.red}></span></div>
+                    <div className={`${style.colorItem} ${brushColor === 'green' ? style.selCol : ''}`} onClick={() => {actionHandler('brush'); colorHandler('green')}}><span className={style.green}></span></div>
+                    <div className={`${style.colorItem} ${brushColor === 'blue' ? style.selCol : ''}`} onClick={() => {actionHandler('brush'); colorHandler('blue')}}><span className={style.blue}></span></div>
+                    <div className={`${style.colorItem} ${brushColor === 'purple' ? style.selCol : ''}`} onClick={() => {actionHandler('brush'); colorHandler('purple')}}><span className={style.purple}></span></div>
+                    <div className={`${style.colorItem} ${brushColor === 'yellow' ? style.selCol : ''}`} onClick={() => {actionHandler('brush'); colorHandler('yellow')}}><span className={style.yellow}></span></div>
+                    <div className={`${style.colorItem} ${brushColor === 'white' ? style.selCol : ''}`} onClick={() => {actionHandler('brush'); colorHandler('white')}}><span className={style.white}></span></div>
                 </div>
+                <h4>Color</h4>
             </div>
         </div>
     </div>

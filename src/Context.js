@@ -4,7 +4,7 @@ export const globalContext = createContext({});
 
 const Context = ({children}) => {
     const [brushColor, setBrushColor] = useState('black');
-    const [brushSize, setBrushSize] = useState(1);
+    const [brushSize, setBrushSize] = useState(5);
     const [brushAction, setBrushAction] = useState('brush');
    
     const [image, setImage] = useState('');

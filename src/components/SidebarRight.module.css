@@ -1,68 +1,92 @@
 
 .container{
-    position: absolute;
-    top: 0;
-    right:0;
-    height: 100vh;
-    width: 200px;
-    background-color: #010015;
-    color: white;
+    width: 100%;
+    height: 100%;
 }
 
 .content{
-    margin-block: 3rem;
-    width: 85%;
+    width: 100%;
+    height: 90%;
     margin-inline: auto;
     display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 0.2rem;
 }
 
 .option{
-    border: 1px solid white;
+    display: inline-block;
+    border: 1px solid gray;
+    cursor: pointer;
     padding-block: 0.5rem;
     padding-inline: 1rem;
-    display: inline-block;
-    border-radius: 0.5rem;
-    cursor: pointer;
+    border-radius: 0.2rem;
     transition: all 0.3s linear;
 }
+
+.types{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-right: 1px solid lightGray;
+    padding: 1rem;
+    gap: 1rem;
+}
+
 .typesList{
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
-    margin-top: 1rem;
+}
+
+.size{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-right: 1px solid lightGray;
+    padding: 1rem;
+    gap: 1rem;
 }
 
 .sizeList{
     display: flex;
     flex-wrap: wrap;
+    justify-content: wrap;
     gap: 1rem;
-    margin-top: 1rem;
+}
+
+.color{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-right: 1px solid lightGray;
+    padding: 1rem;
+    gap: 1rem;
 }
 
 .colorList{
     display: flex;
     flex-wrap: wrap;
-    
-    gap: 0.1rem;
-    margin-top: 1rem;
+    gap: 0.3rem;
 }
 
 .colorItem{
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border: 1px solid transparent;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 0.5rem;
+    border-radius: 50%;
     transition: all 0.3s linear;
     cursor: pointer;
 }
 
 .colorItem:hover{
-    border-color: white;
+    border-color: black;
 }
 
 .colorItem span{
@@ -90,12 +114,14 @@
 .white{
     background-color: white;
 }
-
+.purple{
+    background-color: purple;
+}
 .selected{
     background-color: white;
     color: #010015;
 }
 
 .selCol{
-    border-color: white;
+    border-color: black;
 }
