@@ -74,13 +74,13 @@
 }
 
 .colorItem{
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border: 1px solid transparent;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
+    border-radius: 0.1rem;
     transition: all 0.3s linear;
     cursor: pointer;
 }
@@ -116,6 +116,12 @@
 }
 .purple{
     background-color: purple;
+}
+.gray{
+    background-color: gray;
+}
+.lightGray{
+    background-color: lightGray;
 }
 .selected{
     background-color: white;

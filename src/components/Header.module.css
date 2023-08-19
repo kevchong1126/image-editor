@@ -15,5 +15,5 @@
     height: 100%;
     max-width: 1400px;
     margin-inline: auto;
-    padding-bottom: 0.3rem;
+    z-index: 9;
 }

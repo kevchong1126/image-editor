@@ -1,6 +1,7 @@
 import React from 'react';
 import Canvas from './components/Canvas';
 import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
 
@@ -8,6 +9,7 @@ function App() {
       <div className="App">
         <Header />
         <Canvas />
+        <Footer />
       </div>
   );
 }

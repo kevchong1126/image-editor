@@ -19,7 +19,7 @@ const SidebarRight = () => {
         <div className={style.content}>
             <div className={style.types}>
                 <div className={style.typesList}>
-                    <p className={`${style.option} ${brushAction === 'brush' ? style.selected : ''}`} onClick={() => actionHandler('brush')}>Brush</p>
+                    <p className={`${style.option} ${brushAction === 'brush' ? style.selected : ''}`} onClick={() => actionHandler('brush')}>Pencil</p>
                     <p className={`${style.option} ${brushAction === 'eraser' ? style.selected : ''}`} onClick={() => actionHandler('eraser')}>Eraser</p>
                 </div>
                 <h4>Tool</h4>
@@ -43,6 +43,8 @@ const SidebarRight = () => {
                     <div className={`${style.colorItem} ${brushColor === 'purple' ? style.selCol : ''}`} onClick={() => {actionHandler('brush'); colorHandler('purple')}}><span className={style.purple}></span></div>
                     <div className={`${style.colorItem} ${brushColor === 'yellow' ? style.selCol : ''}`} onClick={() => {actionHandler('brush'); colorHandler('yellow')}}><span className={style.yellow}></span></div>
                     <div className={`${style.colorItem} ${brushColor === 'white' ? style.selCol : ''}`} onClick={() => {actionHandler('brush'); colorHandler('white')}}><span className={style.white}></span></div>
+                    <div className={`${style.colorItem} ${brushColor === 'gray' ? style.selCol : ''}`} onClick={() => {actionHandler('brush'); colorHandler('gray')}}><span className={style.gray}></span></div>
+                    <div className={`${style.colorItem} ${brushColor === 'lightGray' ? style.selCol : ''}`} onClick={() => {actionHandler('brush'); colorHandler('lightGray')}}><span className={style.lightGray}></span></div>
                 </div>
                 <h4>Color</h4>
             </div>

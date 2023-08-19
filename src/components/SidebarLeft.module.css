@@ -16,8 +16,103 @@
     gap: 1rem;
 }
 
+.showShape{
+    border: 1px solid gray;
+    border-radius: 0.2rem;
+    position: relative;
+    
+}
+
+.showBtn{
+    padding: 0.2rem 0.5rem;
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.showBtn span{
+    width: 100%;
+}
+
+.showBtn img{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    transform: translateY(5px);
+}
+
+.shapesContainer{
+    position: absolute;
+    left: -50px;
+    top: 110%;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #edf2f4;
+    border: 1px solid gray;
+    border-radius: 0.2rem;
+    padding: 1.5rem 1rem;
+    gap: 1rem;
+}
+
+.shape{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 1.5rem;
+}
+
+.shape span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 0.1rem;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.2s linear;
+}
+
+.shape span:hover{
+    background-color: white;
+    color: black;
+}
+
+.shape img{
+    width: 80%;
+}
+
+.selected{
+    background-color: white;
+    color: black;
+}
+
+
+.functionsContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.functionsContainer * {
+    display: inline-block;
+    border: 1px solid gray;
+    font-size: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    padding: 0.3rem 1rem;
+}
+
 
 .uploadLabel{
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -5,50 +5,125 @@ import { globalContext } from '../Context';
 
 const Canvas = () => {
     const canvas = useRef();
-    const clear = useRef();
-    const undo = useRef();
-    const download = useRef();
-
-    const [undoArr, setUndoArr] = useState([]);
-    const [arrIdx, setArrIdx] = useState(-1);
-    let ctx = null;
+    let newImage = new Image();
+    let ctx;
     let paint = false;
-    const {brushAction, brushSize, brushColor, image, setImage,
-            blur, saturate, brightness, invert, grayScale
-            } = useContext(globalContext);
+    let prevX, prevY, snapshot;
+    const { brushAction, brushSize, brushColor, image, setXPixel, setYPixel, setContext,
+            undoArr, setUndoArr, arrIdx, setArrIdx, setWidth, setHeight
+          } = useContext(globalContext);
+    
+    const drawSquare = ({clientX, clientY}) => {
+        ctx = canvas.current.getContext('2d');
+        const {left, top} = canvas.current.getBoundingClientRect();
+
+        ctx.strokeRect(clientX - left, clientY - top, prevX - clientX,  prevY - clientY);
+    }
+
+    const drawTriangle = ({clientX, clientY}) => {
+        ctx = canvas.current.getContext('2d');  
+        const {left, top} = canvas.current.getBoundingClientRect();
+
+        ctx.beginPath();
+        ctx.moveTo(prevX - left, prevY - top);
+        ctx.lineTo(clientX - left, clientY - top);
+        ctx.lineTo((prevX*2) - clientX - left, clientY - top);
+        ctx.closePath();
+        ctx.stroke();
+    }
+    const drawCircle = ({clientX, clientY}) => {
+        ctx = canvas.current.getContext('2d');
+        const {left, top} = canvas.current.getBoundingClientRect();
+
+        const radius = Math.sqrt(Math.pow(prevX - clientX, 2) + Math.pow(prevY - clientY, 2));
+
+        ctx.beginPath();
+
+        ctx.arc(prevX - left, prevY - top, radius, 0, 2 * 3.14);
+
+        ctx.stroke();
+    }
+    useEffect(() => {
+        ctx = canvas.current.getContext('2d');  
+        canvas.current.width = canvas.current.offsetWidth;
+        canvas.current.height = canvas.current.offsetHeight;
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, canvas.current.width, canvas.current.height);
+
+        setContext(canvas.current);
+
+        setWidth(canvas.current.width);
+
+        setHeight(canvas.current.height);
+
+        const setPixels = ({clientX, clientY}) => {
+            const {left, top} = canvas.current.getBoundingClientRect();
+
+            setXPixel(Math.max(clientX - left, 0));
+
+            setYPixel(Math.max(clientY - top, 0));
+        };
+
+        const setZero = () => {
+            setXPixel(0);
+            setYPixel(0);
+        }
+
+        canvas.current.addEventListener('mousemove', setPixels);
+
+        canvas.current.addEventListener('mouseout', setZero);
+        return () => {
+            canvas.current.removeEventListener('mousemove', setPixels);
+
+            canvas.current.removeEventListener('mouseout', setZero);
+
+        }
+    }, []);
 
     useEffect(() => {
-        const newImage = new Image();
-        ctx = canvas.current.getContext("2d");
-        ctx.globalCompositeOperation="source-over";  
-        
+        ctx = canvas.current.getContext('2d'); 
+    
+        ctx.globalCompositeOperation="source-over";
+
         const imgFunc = () => {
-            ctx.filter = `blur(${blur}px) saturate(${saturate}) invert(${invert}) brightness(${brightness}) grayScale(${grayScale})`
+            ctx.fillStyle = 'white'
+            ctx.fillRect(0, 0, canvas.current.width, canvas.current.height);
+
             ctx.drawImage(newImage, 0, 0, newImage.width, newImage.height,
-                                    0, 0, canvas.current.width, canvas.current.height);
+                                    0, 0, Math.min(newImage.width, canvas.current.width), Math.min(newImage.height, canvas.current.height));
+            
             setArrIdx(0);
-            setUndoArr([ctx.getImageData(0, 0, canvas.current.width, canvas.current.height)]);
+
+            setUndoArr([ctx.getImageData(0, 0, canvas.current.width, canvas.current.height)]);                      
         }
-        newImage.addEventListener("load", imgFunc);
 
         newImage.src = image;
-        
+
+        newImage.addEventListener("load", imgFunc);
+
         return () => {
             newImage.removeEventListener("load", imgFunc)
         }
 
-    }, [ image, blur, saturate, brightness, invert, grayScale ]);
+    }, [image]);
 
     useEffect(() => {
+        ctx = canvas.current.getContext('2d');   
         const {width, height} = canvas.current.getBoundingClientRect();
-        ctx = canvas.current.getContext("2d");
         const canvasCopy = canvas.current;
 
         function pressDown(e){
-            const { left, top } = canvas.current.getBoundingClientRect();
+            const { left, top} = canvas.current.getBoundingClientRect();
+            prevX = e.clientX;
+            prevY = e.clientY;
             paint = true;
-            ctx.beginPath()
+
+            ctx.beginPath();
+
             ctx.moveTo(e.clientX - left, e.clientY - top);
+
+            snapshot = ctx.getImageData(0, 0, canvas.current.width, canvas.current.height);
+
             draw(e);
         }
 
@@ -56,67 +131,44 @@ const Canvas = () => {
             paint = false;
             ctx.stroke();
             ctx.closePath();
-            setArrIdx(prev => prev + 1)
-            setUndoArr(prev => {
-                return [...prev, ctx.getImageData(0, 0, canvas.current.width, canvas.current.height)];
-                
-            });
+            setArrIdx(prev => prev + 1);
+            setUndoArr(prev => [...prev, ctx.getImageData(0, 0, canvas.current.width, canvas.current.height)]);
         }
 
         function draw(e){
             const { left, top } = canvas.current.getBoundingClientRect();
-
+            
             if (paint){
                 ctx.lineJoin = 'round';
                 ctx.lineCap = 'round';
                 ctx.lineWidth = brushSize+'';
                 ctx.strokeStyle = brushColor;
-
-                if (brushAction === 'brush'){
-                    ctx.globalCompositeOperation = "source-over";
-                    ctx.lineTo(e.clientX - left, e.clientY - top);
-                    ctx.stroke();
-                }else{
-                    ctx.globalCompositeOperation = "destination-out";
-                    ctx.lineTo(e.clientX - left, e.clientY - top);
-                    ctx.stroke();
+                
+                switch (brushAction){
+                    case 'brush':
+                        ctx.globalCompositeOperation = "source-over";
+                        ctx.lineTo(e.clientX - left, e.clientY - top);
+                        ctx.stroke();
+                        break;
+                    case 'square':
+                        ctx.putImageData(snapshot, 0, 0);
+                        drawSquare(e);
+                        
+                        break;
+                    case 'triangle':
+                        ctx.putImageData(snapshot, 0, 0);
+                        drawTriangle(e)
+                        break;
+                    case 'circle':
+                        ctx.putImageData(snapshot, 0, 0);
+                        drawCircle(e)
+                        break;
+                    default: 
+                        ctx.globalCompositeOperation = "destination-out";
+                        ctx.lineTo(e.clientX - left, e.clientY - top);
+                        ctx.stroke();
                 }
             }
-        }
-
-        function undoFunc(){
-            if (undoArr.length > 1){
-                setUndoArr( prev =>{
-                    const arr = [...prev];
-                    arr.pop();
-                    
-                    return arr
-                })
-
-                ctx.putImageData(undoArr[arrIdx-1], 0, 0);
-                setArrIdx(prev => prev - 1);
-
-            }else{
-                ctx.fillStyle ='white';
-                ctx.fillRect(0, 0, width, height);
-                setUndoArr([]);
-                setArrIdx(-1);
-                setImage('');
-            }
-        }   
-
-        function clearFunc(){
-            ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, width, height);
-            setUndoArr([]);
-            setArrIdx(-1);
-            setImage('');
-        }
-
-        function downloadFunc() {
-            const canvasImg = canvas.current.toDataURL("image/png");
-            download.current.href = canvasImg
         }
 
         function resize(){
@@ -124,46 +176,30 @@ const Canvas = () => {
             canvas.current.height = canvas.current.offsetHeight;
             ctx.fillStyle ='white';
             ctx.fillRect(0, 0, width, height);
-            if (undoArr.length > 0) ctx.putImageData(undoArr[arrIdx], 0, 0);
+
+            setWidth(canvas.current.width);
+            setHeight(canvas.current.height);
+
+            if (arrIdx >= 0) ctx.putImageData(undoArr[arrIdx], 0, 0);
         }
 
         window.addEventListener("resize", resize)
-        clear.current.addEventListener('click', clearFunc);
         canvasCopy.addEventListener('mousedown', pressDown);
         canvasCopy.addEventListener('mouseup', pressUp);
         canvasCopy.addEventListener('mousemove', draw);
-        undo.current.addEventListener('click', undoFunc);
-        download.current.addEventListener("click", downloadFunc);
 
         return () => {
+            window.removeEventListener("resize", resize);
             canvasCopy.removeEventListener('mousedown', pressDown);
             canvasCopy.removeEventListener('mouseup', pressUp);
             canvasCopy.removeEventListener('mousemove', draw);
-            clear.current.removeEventListener('click', clearFunc);
-            undo.current.removeEventListener('click', undoFunc);
-            download.current.removeEventListener("click", downloadFunc);
-            window.removeEventListener("resize", resize)
         }
     }, [brushAction, brushSize, brushColor, arrIdx]);
-
-    useEffect(() => {  
-        ctx = canvas.current.getContext('2d');
-        canvas.current.width = canvas.current.offsetWidth;
-        canvas.current.height = canvas.current.offsetHeight;
-        ctx.fillStyle = 'white'
-        ctx.fillRect(0, 0, canvas.current.width, canvas.current.height);
-    }, []);
 
   return (
     <div className={style.container}>
         <div className={style.canvasContainer}>
             <canvas className={style.canvas} ref={canvas}/> 
-
-            <div className={style.btnContainer}>
-                <a href='#' ref={download} download>Download</a>
-                <button ref={undo}>Undo</button>
-                <button ref={clear}>Clear All</button>
-            </div>
         </div>
     </div>
         
