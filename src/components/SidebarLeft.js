@@ -66,6 +66,11 @@ const SidebarLeft = () => {
         }
     }
 
+    const actionHandler = brush => {
+        setBrushAction(brush);
+        setShowShape(false);
+    }
+
   return (
     <div className={style.container}>
         <div className={style.content}>
@@ -81,13 +86,13 @@ const SidebarLeft = () => {
                     showShape &&
                     <div className={style.shapesContainer}>
                         <div className={style.shape}>
-                            <span className={brushAction === 'square' ? style.selected : ''} onClick={() => setBrushAction('square')}>
+                            <span className={brushAction === 'square' ? style.selected : ''} onClick={() => actionHandler('square')}>
                                 <img src={img2} alt='square' />
                             </span>
-                            <span className={brushAction === 'triangle' ? style.selected : ''} onClick={() => setBrushAction('triangle')}>
+                            <span className={brushAction === 'triangle' ? style.selected : ''} onClick={() => actionHandler('triangle')}>
                                 <img src={img3} alt='triangle' />
                             </span>
-                            <span className={brushAction === 'circle' ? style.selected : ''} onClick={() => setBrushAction('circle')}>
+                            <span className={brushAction === 'circle' ? style.selected : ''} onClick={() => actionHandler('circle')}>
                                 <img src={img4} alt='circle' />
                             </span>
                         </div>
